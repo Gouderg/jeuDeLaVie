@@ -1,5 +1,6 @@
 #from graphicalInterface import Interface
 from generation import generation
+from graphicalInterface import Interface
 import os 
 import time
 
@@ -19,7 +20,7 @@ def regle(cellule, i, j, width, height, tableau):
 def checkNeighbours(tableau, i, j, width, height):
 	nbVoisin = 0
 
-	if (i + 1 < width) and tableau[i+1][j] == 1:
+	'''if (i + 1 < width) and tableau[i+1][j] == 1:
 		nbVoisin += 1
 
 	if ((i + 1 < width) and (j - 1 > -1)) and tableau[i+1][j-1] == 1:
@@ -41,6 +42,30 @@ def checkNeighbours(tableau, i, j, width, height):
 		nbVoisin += 1
 
 	if (j - 1 > -1) and tableau[i][j-1] == 1:
+		nbVoisin += 1'''
+
+	if tableau[(i+1) % width][j] == 1:
+		nbVoisin += 1
+
+	if tableau[(i+1) % width][(j-1) % height] == 1:
+		nbVoisin += 1
+
+	if tableau[(i+1) % width][(j+1) % height] == 1:
+		nbVoisin += 1
+
+	if tableau[(i-1) % width][j] == 1:
+		nbVoisin += 1
+
+	if tableau[(i-1) % width][(j-1) % height] == 1:
+		nbVoisin += 1
+
+	if tableau[(i-1) % width][(j+1) % height] == 1:
+		nbVoisin += 1
+
+	if tableau[i][(j+1) % height] == 1:
+		nbVoisin += 1
+
+	if tableau[i][(j-1) % height] == 1:
 		nbVoisin += 1
 
 	return nbVoisin
@@ -50,9 +75,10 @@ def affichDebug(tableau, width, height):
 	os.system('clear')
 	for i in range(width):
 		for j in range(height):
-			print(tableau[j][i], end = ' ')
+			if tableau[j][i]: print('$', end =' ')
+			else: print('.', end =' ')
 		print(end = '\n')
-	time.sleep(0.2)
+	time.sleep(0.09)
 
 #Fonction qui passe un tour
 def passLap(tableau, width, height):
@@ -72,8 +98,8 @@ def passLap(tableau, width, height):
 def jeuDeLaVie(mode):
 
 	#Initialisation des valeurs
-	width = 20
-	height = 20
+	width = 40
+	height = 40
 
 	#Initialisation du tableau
 	tableau = [[0] * height for j in range(width)]
@@ -81,9 +107,16 @@ def jeuDeLaVie(mode):
 	#Remplissage du tableau aléatoire
 	tableau = generation(tableau, 'Aleatoire', width, height)
 
-	
+	#Initialisation du mode graphique
+	if mode:
+		gui = Interface(tableau, width, height)	
+
+
 	while True:
-		affichDebug(tableau, width, height)
 		tableau = passLap(tableau, width, height)
+		affichDebug(tableau, width, height)
 		
-	
+		'''if not(mode):
+			affichDebug(tableau, width, height)
+		else:
+			gui.affichage(tableau, width, height)'''

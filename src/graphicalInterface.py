@@ -1,9 +1,9 @@
 from tkinter import *
-
+import automate
 class Interface:
 
-	nbGeneration = 0
-	nbCelluleVivante = 0
+	#nbGeneration = 0
+	#nbCelluleVivante = 0
 
 	def __init__(self, tableau, width, height):
 		#Création de la fenêtre	
@@ -20,17 +20,17 @@ class Interface:
 		self.id_can = 0
 
 		#Création du cadre
-		self.can = Canvas(self.root, height = can_height, width = can_width)
+		self.can = Canvas(self.root, height = self.can_height, width = self.can_width)
 		self.can.pack()
 
 		#Texte informatif
-		self.textGeneration = Label(self.root)
-		self.textGeneration.pack()
-		self.textVivant = Label(self.root)
-		self.textVivant.pack()
+		#self.textGeneration = Label(self.root)
+		#self.textGeneration.pack()
+		#self.textVivant = Label(self.root)
+		#self.textVivant.pack()
 
 		#Boutton pour lancer le jeu
-		Button(self.root, text = "Lancer le jeu", command = )
+		#Button(self.root, text = "Lancer le jeu", command = jeuDeLaVie)
 
 		self.state = StringVar()
 		for item in ['Aleatoire', 'Stable', 'Oscillateur', 'Canon', 'Vaisseaux']:
@@ -40,13 +40,14 @@ class Interface:
 		Button(self.root, text = 'Quitter',
                command =self.root.quit).pack()
 
-		Button(self.root, text = 'Reset',
-				command = self.reset).pack(side = RIGHT)
+		#Button(self.root, text = 'Reset',
+		#		command = self.reset).pack(side = RIGHT)
 
-		self.affichage()		
-	
+		self.affichage(tableau, width, height)		
+		self.root.mainloop()
+
 	#Affichage du tableau
-	def affichage(self, tableau, width, height, nbGeneration, nbCelluleVivante):
+	def affichage(self, tableau, width, height):
 		self.can.delete('all')
 		for i in range(width):
 			for j in range(height):
@@ -56,7 +57,8 @@ class Interface:
 										  (j + 1) * self.size,
 										  fill = self.color[tableau[i][j]],
 										  width = 1)
-		self.textGeneration.configure(text = 'Génération: ' + str(self.nbGeneration))
-		self.textVivant.configure(text = 'Cellules vivantes: '+str(self.nbCelluleVivante))
+		self.id_can = self.can.after(10,automate.passLap, tableau, width, height)
+		#self.textGeneration.configure(text = 'Génération: ' + str(self.nbGeneration))
+		#self.textVivant.configure(text = 'Cellules vivantes: '+str(self.nbCelluleVivante))
 
 	
