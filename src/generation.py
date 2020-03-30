@@ -1,12 +1,14 @@
 from random import randint
+import constante 
 
-def generation(tableau, etat, width, height):
+#Fonction générant des cas spécifiques
+def generation(tableau, etat):
 	if etat == '' or etat == 'Aleatoire':
-		for i in range(width):
-			for j in range(height):
+		for i in range(constante.HEIGHT):
+			for j in range(constante.WIDTH):
 				tableau[i][j] = randint(0,1)
 
-	elif etat == 'Oscillateur' and tableau_width > 20 and tableau_height > 20:
+	elif etat == 'Oscillateur' and constante.WIDTH > 50 and constante.HEIGHT > 50:
 		#Galaxie de Kok
 		tableau[20][20] = 1
 		tableau[21][20] = 1
@@ -214,6 +216,3 @@ def generation(tableau, etat, width, height):
 		tableau[4][12] = 1
 
 	return tableau
-
-	#affichage()
-	#id_can = can.after(100,passLap)
