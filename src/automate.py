@@ -20,30 +20,6 @@ def regle(cellule, i, j, width, height, tableau):
 def checkNeighbours(tableau, i, j, width, height):
 	nbVoisin = 0
 
-	'''if (i + 1 < width) and tableau[i+1][j] == 1:
-		nbVoisin += 1
-
-	if ((i + 1 < width) and (j - 1 > -1)) and tableau[i+1][j-1] == 1:
-		nbVoisin += 1
-
-	if ((i + 1 < width) and (j + 1 <height)) and (tableau[i+1][j+1] == 1):
-		nbVoisin += 1
-
-	if (i - 1 > -1) and tableau[i-1][j] == 1:
-		nbVoisin += 1
-
-	if (i - 1 > -1) and (j - 1 > -1) and tableau[i-1][j-1] == 1:
-		nbVoisin += 1
-
-	if (i - 1 > -1) and (j + 1 < height) and tableau[i-1][j+1] == 1:
-		nbVoisin += 1
-
-	if (j + 1 < height) and tableau[i][j+1] == 1:
-		nbVoisin += 1
-
-	if (j - 1 > -1) and tableau[i][j-1] == 1:
-		nbVoisin += 1'''
-
 	if tableau[(i+1) % width][j] == 1:
 		nbVoisin += 1
 
@@ -71,35 +47,45 @@ def checkNeighbours(tableau, i, j, width, height):
 	return nbVoisin
 
 #Fonction d'affichage terminal && debuggage
-def affichDebug(tableau, width, height):
+def affichDebug(tableau, width, height, nbCellulesVivantes, nbTour):
 	os.system('clear')
 	for i in range(width):
 		for j in range(height):
 			if tableau[j][i]: print('$', end =' ')
 			else: print('.', end =' ')
 		print(end = '\n')
+	print("Nombre de Cellules Vivantes: ",nbCellulesVivantes)
+	print("Nombre de tours: ",nbTour)
+
 	time.sleep(0.09)
 
 #Fonction qui passe un tour
-def passLap(tableau, width, height):
+def passLap(tableau, width, height, nbCellulesVivantes, nbTour):
 	tabCol = []
-	cellule = 0
+	cellule = 0 
+	newCellule = 0
+	nbCellulesVivantes = 0
+
 	for i in range(width):
 		tabRow = []
 		for j in range(height):
 			cellule = tableau[i][j]
-			tabRow.append(regle(cellule, i, j, width, height, tableau))
+			newCellule = regle(cellule, i, j, width, height, tableau)
+			tabRow.append(newCellule)
+			if newCellule: nbCellulesVivantes += 1
 		tabCol.append(tabRow)
 	tableau = tabCol
-	del tabRow, tabCol
-	return tableau
+	del tabRow, tabCol, cellule, newCellule
+	return tableau, nbCellulesVivantes, nbTour + 1
 
 #Fonction principal
 def jeuDeLaVie(mode):
 
 	#Initialisation des valeurs
-	width = 40
-	height = 40
+	width = 20
+	height = 20
+	nbCellulesVivantes = 0
+	nbTour = 0
 
 	#Initialisation du tableau
 	tableau = [[0] * height for j in range(width)]
@@ -109,14 +95,8 @@ def jeuDeLaVie(mode):
 
 	#Initialisation du mode graphique
 	if mode:
-		gui = Interface(tableau, width, height)	
-
-
-	while True:
-		tableau = passLap(tableau, width, height)
-		affichDebug(tableau, width, height)
-		
-		'''if not(mode):
-			affichDebug(tableau, width, height)
-		else:
-			gui.affichage(tableau, width, height)'''
+		gui = Interface(tableau, width, height)
+	else:
+		while True:
+			tableau, nbCellulesVivantes, nbTour = passLap(tableau, width, height, nbCellulesVivantes, nbTour)
+			affichDebug(tableau, width, height, nbCellulesVivantes, nbTour)

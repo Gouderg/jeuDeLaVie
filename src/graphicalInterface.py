@@ -43,6 +43,7 @@ class Interface:
 		#Button(self.root, text = 'Reset',
 		#		command = self.reset).pack(side = RIGHT)
 
+		
 		self.affichage(tableau, width, height)		
 		self.root.mainloop()
 
