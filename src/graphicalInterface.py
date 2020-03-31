@@ -14,7 +14,7 @@ class Interface:
 		self.root.title("Quadrillage")
 
 		#Déclaration et Initialisation des valeurs du tableau
-		self.tableau = tableau	 			    			#Tableau
+		self.tableau = tableau 					 			#Tableau
 		self.size = 6					  					#Taille d'une cellule
 		self.can_width = constante.WIDTH * self.size		#Largeur du canva
 		self.can_height = constante.HEIGHT * self.size 		#Hauteur du canva
@@ -70,8 +70,8 @@ class Interface:
 	#Affichage du tableau
 	def affichage(self):
 		self.can.delete('all')
-		for i in range(constante.HEIGHT):
-			for j in range(constante.WIDTH):
+		for i in range(constante.WIDTH):
+			for j in range(constante.HEIGHT):
 				self.can.create_rectangle(i * self.size,
 										  j * self.size,
 										  (i + 1) * self.size,
